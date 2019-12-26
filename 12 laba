@@ -1,0 +1,167 @@
+#include <iostream>
+#include  <string>
+using namespace std;
+void perestanovkaubil54goda(int** matrix, int column, int first, int last)
+{
+    int** sort_arr = new int*[4];
+    for (int i = 0; i < 4; i++) {
+        sort_arr[i] = &matrix[i][column];
+    }
+    int i = first, j = last, x = *sort_arr[(first + last) / 2];
+    do {
+        while (*sort_arr[i] > x) i++;
+        while (*sort_arr[j] < x) j--;
+        if (i <= j) {
+            if (*sort_arr[i] < *sort_arr[j]) swap(*sort_arr[i], *sort_arr[j]);
+            i++;
+            j--;
+        }
+    } while (i <= j);
+    if (i < last)
+        perestanovkaubil54goda(matrix, column, i, last);
+    if (first < j)
+        perestanovkaubil54goda(matrix, column, first, j);
+
+}
+void perestanovkavozrast54goda(int** matrix, int column, int first, int last)
+{
+    int** sort_arr = new int* [4];
+    for (int i = 0; i < 4; i++) {
+        sort_arr[i] = &matrix[i][column];
+    }
+    int i = first, j = last, x = *sort_arr[(first + last) / 2];
+    do {
+        while (*sort_arr[i] < x) i++;
+        while (*sort_arr[j] > x) j--;
+        if (i <= j) {
+            if (*sort_arr[i] > * sort_arr[j]) swap(*sort_arr[i], *sort_arr[j]);
+            i++;
+            j--;
+        }
+    } while (i <= j);
+    if (i < last)
+        perestanovkavozrast54goda(matrix, column, i, last);
+    if (first < j)
+        perestanovkavozrast54goda(matrix, column, first, j);
+
+}
+
+int main()
+{
+    int q = 0;
+    int i = 0;
+    char str[20];
+    string buff;
+    int** mas = new int*[4];
+    for (int i = 0; i < 4; i++) {
+        mas[i] = new int[4];
+    }
+    while (true)
+    {
+        try
+        {
+            cin.get(str, 20);
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(32767, '\n');
+                throw - 1;
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                if (str[i] < 58 && str[i]>47)
+                {
+                    buff = str[i];
+                    mas[0][i] = stoi(buff);
+                    cout << mas[0][i];
+                }
+                else
+                {
+                    throw - 1;
+                }
+            }
+            if (str[4] != ' ')
+            {
+                throw - 1;
+            }
+            for (int l=0, i = 5; i < 9; i++, l++)
+            {
+                if (str[i] < 58 && str[i]>47)
+                {
+                    buff = str[i];
+                    mas[1][l] = stoi(buff);
+                    cout << str[i];
+                }
+                else
+                {
+                    throw - 1;
+                }
+            }
+            cout << endl << str[9];
+            if (str[9] != ' ')
+            {
+                throw - 1;
+            }
+            for (int l=0, i = 10; i < 14;l++, i++)
+            {
+                if (str[i] < 58 && str[i]>47)
+                {
+                    buff = str[i];
+                    mas[2][l] = stoi(buff);
+                    cout << str[i];
+                }
+                else
+                {
+                    throw - 1;
+                }
+            }
+            cout << endl << str[14];
+            if (str[14] != ' ')
+            {
+                throw - 1;
+            }
+            for (int l=0, i = 15; i < 19;l++, i++)
+            {
+                if (str[i] < 58 && str[i]>47)
+                {
+                    buff = str[i];
+                    mas[3][l] = stoi(buff);
+                    cout << str[i] << " ";
+                }
+                else
+                {
+                    throw - 1;
+                }
+            }
+            break;
+        }
+        catch (int lol)
+        {
+            cout << "repeat" << endl;
+        }
+    }
+    cout << endl << endl << "=================" << endl << endl;
+    for (int r = 0; r < 4; r++) {
+        for (int k = 0; k < 4; k++) {
+            cout << mas[r][k] << " ";
+        }
+        cout << endl;
+    }
+    for (int i = 0;i < 4;i++) 
+    {
+        if (i % 2 == 0) 
+        {
+            perestanovkavozrast54goda(mas, i, 0, 3);
+        }
+        else { perestanovkaubil54goda(mas, i, 0, 3); }
+    
+    }
+    cout << endl;
+    for (int r = 0; r < 4; r++) {
+        for (int k = 0; k < 4; k++) {
+            cout << mas[r][k] << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
